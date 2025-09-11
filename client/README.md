@@ -1,70 +1,77 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# 🏛️ AI-Driven Research Engine for Commercial Courts
 
-## Available Scripts
+## Project Overview
 
-In the project directory, you can run:
+This project is an intelligent legal research system designed for Commercial Courts in India. It leverages AI (Google Gemini) and the Indian Kanoon legal database to provide:
+- Commercial case analysis
+- Key legal issues and relevant laws
+- Predictive analytics for case outcomes
+- Data localization for different High Courts
+- Multilingual support (English/Hindi)
+- Ethical AI (facilitator, not decision-maker)
 
-### `npm start`
+## Code Structure
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- `client/` — React frontend for user interaction
+	- `src/App.js` — Main UI and logic for legal research
+	- `public/` — Static assets
+- `server/` — Node.js backend API
+	- `index.js` — Express server, Gemini AI integration, Indian Kanoon API calls
+- `mlsamp.py` — Python script for PDF law document aggregation
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## How to Run
 
-### `npm test`
+### 1. Install Dependencies
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Navigate to the project root and run:
 
-### `npm run build`
+```bash
+npm install
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 2. Set Environment Variables
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Create a `.env` file in the `server/` directory with:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+GEMINI_API_KEY=your_gemini_api_key
+IK_TOKEN=your_indian_kanoon_api_token
+```
 
-### `npm run eject`
+### 3. Start the Backend Server
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```bash
+cd client/server
+node index.js
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 4. Start the Frontend
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```bash
+cd ../
+npm start
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Learn More
+## Required NPM Modules
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- express
+- cors
+- dotenv
+- node-fetch
+- @google/genai
+- react
+- axios
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Usage
 
-### Code Splitting
+1. Enter a commercial dispute query in the UI
+2. Select case type, jurisdiction, and language
+3. View AI-powered analysis, relevant cases, and predictive analytics
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Security
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- **Do NOT commit your `.env` file or API keys to GitHub**
+- `node_modules/` and `.env` are excluded by `.gitignore`
