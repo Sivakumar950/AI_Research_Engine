@@ -32,7 +32,9 @@ function App() {
       console.error('Commercial Courts Research Engine error:', err)
       if (err.response) {
         // Server responded with error
-        setError(`Commercial Courts Engine error: ${err.response.data?.message || err.response.status}`)
+        const errMsg = err.response.data?.error || err.response.data?.message || `HTTP ${err.response.status}`
+        const errDetails = err.response.data?.details ? ` (${err.response.data.details})` : ''
+        setError(`Commercial Courts Engine: ${errMsg}${errDetails}`)
       } else if (err.request) {
         // Network error
         setError('Failed to connect to Commercial Courts Research Engine. Please check if the server is running on port 5000.')
@@ -67,6 +69,7 @@ function App() {
             placeholder="Describe your commercial dispute (e.g., 'breach of software licensing agreement', 'payment dispute in supply contract')"
             value={query}
             onChange={e => setQuery(e.target.value)}
+            onKeyDown={e => { if (e.key === 'Enter' && !loading) search() }}
             style={{ 
               width: '100%', 
               padding: '10px', 
@@ -270,8 +273,17 @@ function App() {
               <h3>📍 Local Jurisdiction Cases ({data.metadata?.jurisdiction})</h3>
               {data.searchResults.jurisdictionSpecific.slice(0, 3).map((doc, i) => (
                 <div key={i} style={{ border: '1px solid #4CAF50', padding: '10px', margin: '5px 0', borderRadius: '4px', backgroundColor: 'white' }}>
-                  <h4 style={{ color: '#2e7d32', margin: '0 0 5px 0' }}>{doc.title || 'No title'}</h4>
+                  <h4 style={{ margin: '0 0 5px 0' }}>
+                    {doc.url ? (
+                      <a href={doc.url} target="_blank" rel="noopener noreferrer" style={{ color: '#2e7d32', textDecoration: 'underline' }}>
+                        {doc.title || 'No title'} ↗
+                      </a>
+                    ) : (
+                      <span style={{ color: '#2e7d32' }}>{doc.title || 'No title'}</span>
+                    )}
+                  </h4>
                   <p><strong>Court:</strong> {doc.court || 'Unknown court'} | <strong>Date:</strong> {doc.date || 'No date'}</p>
+                  {doc.citation && <p><strong>Citation:</strong> {doc.citation}</p>}
                   <p><strong>Relevance:</strong> {doc.dataLocalization} | <strong>Found via:</strong> <em>{doc.matchedTerm}</em></p>
                   {doc.snippet && <p><strong>Summary:</strong> {doc.snippet}</p>}
                 </div>
@@ -285,8 +297,17 @@ function App() {
               <h3>🏛️ Commercial Courts Act 2015 Cases</h3>
               {data.searchResults.commercialSpecific.slice(0, 5).map((doc, i) => (
                 <div key={i} style={{ border: '1px solid #ff9800', padding: '10px', margin: '5px 0', borderRadius: '4px', backgroundColor: 'white' }}>
-                  <h4 style={{ color: '#e65100', margin: '0 0 5px 0' }}>{doc.title || 'No title'}</h4>
+                  <h4 style={{ margin: '0 0 5px 0' }}>
+                    {doc.url ? (
+                      <a href={doc.url} target="_blank" rel="noopener noreferrer" style={{ color: '#e65100', textDecoration: 'underline' }}>
+                        {doc.title || 'No title'} ↗
+                      </a>
+                    ) : (
+                      <span style={{ color: '#e65100' }}>{doc.title || 'No title'}</span>
+                    )}
+                  </h4>
                   <p><strong>Court:</strong> {doc.court || 'Unknown court'} | <strong>Date:</strong> {doc.date || 'No date'}</p>
+                  {doc.citation && <p><strong>Citation:</strong> {doc.citation}</p>}
                   <p><strong>Commercial Relevance:</strong> {Math.round((doc.relevanceScore || 0) * 100)}% | <strong>Type:</strong> Commercial Case</p>
                   <p><strong>Search Term:</strong> <em>{doc.matchedTerm}</em></p>
                   {doc.snippet && <p><strong>Summary:</strong> {doc.snippet}</p>}
@@ -301,9 +322,18 @@ function App() {
               <h3>📋 All Relevant Cases ({data.searchResults.allResults.length} found)</h3>
               {data.searchResults.allResults.map((doc, i) => (
                 <div key={i} style={{ border: '1px solid #ddd', padding: '10px', margin: '5px 0', borderRadius: '3px' }}>
-                  <h4>{doc.title || 'No title'}</h4>
+                  <h4>
+                    {doc.url ? (
+                      <a href={doc.url} target="_blank" rel="noopener noreferrer" style={{ color: '#1a0dab', textDecoration: 'underline' }}>
+                        {doc.title || 'No title'} ↗
+                      </a>
+                    ) : (
+                      doc.title || 'No title'
+                    )}
+                  </h4>
                   <p><strong>Court:</strong> {doc.court || 'Unknown court'}</p>
                   <p><strong>Date:</strong> {doc.date || 'No date'}</p>
+                  {doc.citation && <p><strong>Citation:</strong> {doc.citation}</p>}
                   <p><strong>Found via search:</strong> <em>{doc.matchedTerm}</em></p>
                   {doc.isCommercialCase && <p style={{ color: '#2c5aa0', fontWeight: 'bold' }}>✓ Commercial Case</p>}
                   {doc.dataLocalization && <p><strong>Data Localization:</strong> {doc.dataLocalization}</p>}
