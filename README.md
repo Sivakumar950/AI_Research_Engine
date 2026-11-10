@@ -21,6 +21,18 @@ An intelligent legal research platform specifically engineered for Commercial Co
 
 ---
 
+## 📊 Model Performance & Research Benchmarks
+
+Comprehensive details regarding model fine-tuning (DistilBERT, BERT, RoBERTa, XLNet, Hierarchical BiGRU), hyperparameters, evaluation metrics (ROUGE, BLEU, METEOR, Jaccard), Integrated Gradients token attribution heatmaps, and human legal expert comparisons are documented in:
+
+👉 **[`model_performance_and_analysis/`](model_performance_and_analysis/README.md)**
+
+- **Top Model**: Hierarchical XLNet + BiGRU (**78.0% Accuracy**, **77.8% F1**)
+- **Human Benchmark**: Legal Experts (**94.0% Accuracy**)
+- **Explainability**: Two-stage Hierarchical Occlusion and token saliency maps benchmarked against 5 legal experts.
+
+---
+
 ## 📁 Repository Structure
 
 ```
@@ -37,6 +49,11 @@ AI_Research_Engine/
 │   ├── index.js                         # API endpoints, Gemini SDK & Kanoon search
 │   ├── .env.example                     # Environment template (keys required)
 │   └── package.json                     # Backend dependencies & server scripts
+│
+├── model_performance_and_analysis/      # Fine-tuning benchmarks, metrics & explainability
+│   ├── README.md                        # Deep research report, hyperparams & comparisons
+│   ├── plots/                           # High-res attribution heatmaps, t-SNE & ROC/ROUGE plots
+│   └── evaluation_metrics/              # Raw metric evaluations across expert ranks
 │
 ├── mlsamp.py                            # PDF law and statutory document aggregator
 ├── estimate_commercial_judgments.py     # Commercial suits metadata scanner
